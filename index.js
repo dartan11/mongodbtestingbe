@@ -9,6 +9,11 @@ const app = express();
 const connectDB = require("./config/database");
 connectDB();
 
+const checkJwt = auth({
+  audience: process.env.AUDIENCE,
+  issuerBaseURL: process.env.ISSUER,
+});
+
 // import Mongo Models
 const userModel = require("./models/userModel");
 const chatroomModel = require("./models/chatroomModel");
@@ -26,19 +31,17 @@ const userController = new UserController(userModel);
 const chatroomController = new ChatroomController(chatroomModel);
 
 //initializing routers
-const userRouter = new UserRouter(userController);
-const chatroomRouter = new ChatroomRouter(chatroomController);
+const userRouter = new UserRouter(userController, checkJwt).routes();
+const chatroomRouter = new ChatroomRouter(
+  chatroomController,
+  checkJwt
+).routes();
 
 app.use(express.json());
 app.use(cors());
 
-const checkJwt = auth({
-  audience: process.env.AUDIENCE,
-  issuerBaseURL: process.env.ISSUER,
-});
-
-app.use("/users", userRouter.routes());
-app.use("/chatroom", chatroomRouter.routes());
+app.use("/users", userRouter);
+app.use("/chatroom", chatroomRouter);
 
 app.listen(PORT, () => {
   console.log(`Express app listening on port ${PORT}!`);

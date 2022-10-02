@@ -8,7 +8,7 @@ class ChatroomRouter {
   }
   routes() {
     router.get("/", this.controller.getAll);
-    router.post("/", this.controller.createNew);
+    router.post("/", this.auth, this.controller.createNew);
 
     return router;
   }

@@ -7,7 +7,8 @@ class UserRouter {
     this.auth = auth;
   }
   routes() {
-    router.get("/", this.controller.getAll);
+    router.get("/", this.auth, this.controller.getAll);
+    router.post("/", this.auth, this.controller.insertOne);
 
     return router;
   }
