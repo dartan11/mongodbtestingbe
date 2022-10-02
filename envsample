@@ -1,0 +1,7 @@
+PORT=3000
+
+MONGO_URI= {input here}
+
+set up a mongodb account and put in the URI that they tell you put in after you choose to "connect application"
+e.g. this is mine:
+MONGO_URI=mongodb+srv://Darren:fwlraHUwPgzmv05R@chatapp.jg5ypuz.mongodb.net/?retryWrites=true&w=majority
